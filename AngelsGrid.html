@@ -296,19 +296,51 @@
         let tables = [];
         let lesTableaux = document.getElementById(id)
 
+        let mainArray = [];
+        let usedRanges = [];
+
         for (let i = 0; i < 3; i++) {
-            let table = [];
-            let usedTens = [];
-            while (table.length < 5) {
+            let subArray = [];
+            let count = 0;
+            while (subArray.length < 5 && count < 100) {
                 let randomNumber = Math.floor(Math.random() * 99) + 1;
-                let tens = Math.floor(randomNumber / 10);
-                if (table.indexOf(randomNumber) === -1 && tables.flat().indexOf(randomNumber) === -1 && usedTens.indexOf(tens) === -1) {
-                table.push(randomNumber);
-                usedTens.push(tens);
+                let alreadyExists = false;
+                let rangeExists = false;
+                for (let j = 0; j < subArray.length; j++) {
+                    if (subArray[j] === randomNumber || Math.floor(subArray[j] / 10) === Math.floor(randomNumber / 10)) {
+                        alreadyExists = true;
+                        break;
+                    }
                 }
+                for (let k = 0; k < usedRanges.length; k++) {
+                    if (Math.floor(randomNumber / 10) === usedRanges[k]) {
+                        rangeExists = true;
+                        break;
+                    }
+                }
+                if (!alreadyExists && !rangeExists) {
+                    subArray.push(randomNumber);
+                    usedRanges.push(Math.floor(randomNumber / 10));
+                }
+                count++;
             }
-                tables.push(table.sort(function(a, b) {return a - b;}));
+            mainArray.push(subArray.sort(function (a, b) { return a - b; }));
         }
+        var tableauPremier = []
+        while (mainArray[2].length < 5) {
+            for (let i = 0; i < mainArray[2].length; i++) {
+                tableauPremier.push(mainArray[2][i].toString()[0])
+            }
+
+            do {
+                var numberRandom = Math.floor(Math.random() * 99)
+            } while (mainArray[2].includes(numberRandom) || numberRandom.toString().length < 2 || tableauPremier.includes(numberRandom.toString()[0]) || mainArray[0].includes(numberRandom) || mainArray[1].includes(numberRandom))
+            mainArray[2].push(numberRandom)
+        }
+        mainArray[2] = mainArray[2].sort(function (a, b) { return a - b; });
+
+        tables = mainArray;
+
         let tr = document.getElementById(id).children
         for(let j = 0; j < 3; j++){
             let childs = tr[j].children
