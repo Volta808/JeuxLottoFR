@@ -327,13 +327,18 @@
             mainArray.push(subArray.sort(function (a, b) { return a - b; }));
         }
         var tableauPremier = []
+        var contient1 = 0;
         while (mainArray[2].length < 5) {
             for (let i = 0; i < mainArray[2].length; i++) {
                 tableauPremier.push(mainArray[2][i].toString()[0])
             }
 
             do {
-                var numberRandom = Math.floor(Math.random() * 99)
+                var numberRandom = Math.floor(Math.random() * 99) + 1
+                if(contient1 == 0 && numberRandom.toString().length==1 && !mainArray[0].includes(numberRandom) && !mainArray[1].includes(numberRandom) && !mainArray[2].includes(numberRandom)){
+                    contient1 = 1
+                    break
+                }
             } while (mainArray[2].includes(numberRandom) || numberRandom.toString().length < 2 || tableauPremier.includes(numberRandom.toString()[0]) || mainArray[0].includes(numberRandom) || mainArray[1].includes(numberRandom))
             mainArray[2].push(numberRandom)
         }
