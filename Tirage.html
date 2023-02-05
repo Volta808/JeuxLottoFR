@@ -6,46 +6,52 @@
     <title>Tirage au sort</title>
 </head>
 <body>
-    
-
-    <div style="text-align:center">
+    <div class="main" style="text-align:center">
         <h1 id="titre">Tirage au Sort</h1>
-        <input class="itext" id="j1" type="text" placeholder="Joueur 1">
+        <input id="j1" type="text" placeholder="Joueur 1">
         <span id="levs" class="vs">VS</span>
-        <input class="itext" id="j2" type="text" placeholder="Joueur 2">
+        <input id="j2" type="text" placeholder="Joueur 2">
         <nav class="lesscores">
-        <h1 id="joueur1"></h1>
-        <h1 id="joueur2"></h1>
+            <h1 id="joueur1"></h1>
+            <h1 id="joueur2"></h1>
         </nav>
         <input type="button" id="leBouton" value="Générer">
-    </div>
 
+    </div>
 </body>
 </html>
 
+
 <style>
 *, ::before, ::after {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-body{
+body {
     background: rgb(29, 29, 29);
     height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
 }
-p, h2, h1{
-    color:white;
+div{
+  visibility: hidden;
 }
-.lesscores{
-        margin-top: 20px;
-        margin-bottom: 20px;
+p, h2, h1 {
+    color: white;
 }
+.lesscores {
+    margin: 20px 0;
+    visibility: visible;
+}
+
+
 
 nav h1 {
     font-size: 30px;
 }
-div{
+
+.main {
+    background-color: rgb(50, 50, 50);
     border: solid 1px white;
     width: 600px;
     position: fixed;
@@ -54,84 +60,100 @@ div{
     left: 35%;
     padding-bottom: 30px;
     box-shadow: 0 5px 70px rgb(238, 95, 231);
+    animation: border-pulse 3s ease-out infinite;
+    visibility: visible;
+
+ 
 }
-.vs{
-    color:white;
-    margin-left: 20px;
-    margin-right: 20px;
+@keyframes border-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(238, 95, 231, 1);
+    }
+    100% {
+      box-shadow: 0 0 50px 35px rgba(238, 95, 231, 0);
+    }
+  }
+
+.vs {
+    color: white;
+    margin: 0 20px;
 }
-.itext{
-    width: 200;
+input[type="text"] {
+    width: 200px;
     height: 40px;
     border-radius: 4px;
 }
-
-#levs:hover{
+#levs:hover {
     cursor: pointer;
     font-weight: bold;
 }
-.greenColor{
-    color:rgb(192, 35, 145);
+.greenColor {
+    color: rgb(192, 35, 145);
 }
-#numbers{
-    margin-left: 30px;
-}
-
-
-#titre{
-    text-shadow: 2px 2px #3a2525;
+#titre {
+    text-shadow: 1px 1px #ffffff;
     font-style: italic;
     font-size: 60px;
     margin-top: 34px;
-    text-align:center;
-    color:rgb(192, 35, 145);
+    text-align: center;
+    color: rgb(192, 35, 145);
     padding-bottom: 30px;
-}
-#leBouton{
-    margin-top: 20px;
-    width: 10em;  height: 2em;
-    border-radius: 20px;
-    font-size: large;
+
 }
 
-#leBouton:hover{
+#leBouton {
+    background-color: rgb(192, 35, 145);
+    color: white;
+    margin-top: 20px;
+    width: 10em;
+    height: 2em;
+    border-radius: 20px;
+    font-size: large;
+    border: 1px solid black;
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.651)
+}
+#leBouton:hover {
     cursor: pointer;
     font-weight: bold;
 }
 </style>
-
 <script>
-var liste = [101, 102];
-const tds = document.querySelectorAll("td");
-const numbers = document.getElementById("numbers");
+    const input1 = document.getElementById("j1");
+const input2 = document.getElementById("j2");
+const vs = document.getElementById("levs");
+const button = document.getElementById("leBouton");
+const result1 = document.getElementById("joueur1");
+const result2 = document.getElementById("joueur2");
 
-document.getElementById("levs").addEventListener("click", function() {
-    document.getElementById("j1").value = ""
-    document.getElementById("j2").value = ""
-  });
+let generatedNumbers = [];
 
-document.getElementById("leBouton").addEventListener("click", function() {
-    if(document.getElementById("j1").value!=""){generateNumber("joueur1", "j1");}
-    if(document.getElementById("j2").value!=""){generateNumber("joueur2", "j2");}
-  });
+vs.addEventListener("click", () => {
+  input1.value = "";
+  input2.value = "";
+});
 
+button.addEventListener("click", () => {
+  if (input1.value !== "") {
+    generateNumber(result1, input1);
+  }
+  if (input2.value !== "") {
+    generateNumber(result2, input2);
+  }
+});
 
-function generateNumber(leid, lenom) {
-    if(leid=="joueur1"){
-        liste = [101, 102];
-    }
-    var nombre = Math.floor(Math.random() * 99) + 1;
-    if(liste.length<101){
-    while(liste.includes(nombre)){
-        nombre = Math.floor(Math.random() * 99) + 1;
-    }
-    document.getElementById(leid).innerHTML = document.getElementById(lenom).value + ' a eu <span class="greenColor">' + nombre + "</span>";
-    liste.push(nombre);
+function generateNumber(result, input) {
+  let number = Math.floor(Math.random() * 99) + 1;
 
+  if (generatedNumbers.length >= 100) {
+    return;
+  }
 
+  while (generatedNumbers.includes(number)) {
+    number = Math.floor(Math.random() * 99) + 1;
+  }
 
+  generatedNumbers.push(number);
+  result.innerHTML = `${input.value} a eu <span class="greenColor">${number}</span>`;
 }
 
-
-}
 </script>
