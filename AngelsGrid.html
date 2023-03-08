@@ -274,8 +274,16 @@
 
 <br>
 <a id="downloadButton" onclick="this.href='data:text/html;charset=UTF-8,'+encodeURIComponent(document.documentElement.outerHTML)" href="#"><img width="40px" height="40px" src="https://media.discordapp.net/attachments/582112089405915136/1071318653515092068/download-circular-button.png" alt="Image indisponible"></a>
-    
+<a id="reset" href="#"><img width="40px" height="40px" src="https://media.discordapp.net/attachments/553624112602284063/1082946157002633216/604158-200.png" alt="Image indisponible"></a>    
 <script>
+    document.getElementById("reset").addEventListener("click", function() {
+    const userChoice = prompt("Êtes-vous certain de vouloir réinitialiser les grilles? (oui/non)");
+    if(userChoice.toLowerCase() =="oui"){
+    let efface = []
+    localStorage.setItem("listeNombres", JSON.stringify(efface));
+    location.reload();
+    }
+    });
     
     if(document.getElementById("genere").textContent==""){
     let nom = prompt("Nom :");
@@ -437,6 +445,13 @@ body{
     bottom: 0;
     width: 100%;
 }
+#reset{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
 @media (max-width: 1920px){
     body{
     zoom: 85%;
@@ -511,11 +526,32 @@ td:hover{
 
 <script>
 const tds = document.querySelectorAll("td");
+let Lesnombres = JSON.parse(localStorage.getItem("listeNombres")) || [];
+tds.forEach(td => {
+    if(Lesnombres.includes(td.textContent)){
+        td.classList.add("clicked");
+    }
+});
 tds.forEach(td => {
   td.style.fontSize = "1.5em";
   td.addEventListener("click", function() {
     if(td.textContent!=""){
-    td.classList.toggle("clicked");
+    let nombres = JSON.parse(localStorage.getItem("listeNombres")) || [];
+    if(nombres.includes(td.textContent) && !td.classList.contains("clicked")){
+        td.classList.add("clicked");
+    }
+    else if(!nombres.includes(td.textContent) && !td.classList.contains("clicked")){
+    nombres.push(td.textContent)
+    localStorage.setItem("listeNombres", JSON.stringify(nombres));
+    td.classList.add("clicked");
+    }else if(nombres.includes(td.textContent) && td.classList.contains("clicked")){
+        td.classList.remove("clicked");
+        var index = nombres.indexOf(td.textContent);
+        if (index !== -1) {
+        nombres.splice(index, 1);
+        }
+        localStorage.setItem("listeNombres", JSON.stringify(nombres));
+    }
 }
   });
 });

@@ -136,7 +136,7 @@
         <input type="button" id="leBouton" value="Générer">
     </div>
     <br><br><br><br>
-    <h2 style="visibility: hidden;" id="numbers"></h2>
+    <h2 id="numbers">Chiffres tirés: </h2>
 </body>
 </html>
 
@@ -217,6 +217,7 @@ tds.forEach(td => {
     td.classList.add("greenColor");
     td.style.fontWeight = "bold";
     td.style.backgroundColor = "lightgrey";
+    document.getElementById("numbers").textContent = document.getElementById("numbers").textContent + td.textContent + ", "
     if(!liste.includes(parseInt(td.textContent))){
     liste.push(parseInt(td.textContent))
     }
@@ -236,14 +237,13 @@ function generateNumber() {
     }
     document.getElementById("leChiffre").innerText = nombre;
     liste.push(nombre);
+    numbers.innerHTML = numbers.innerHTML + nombre + ", ";
     tds.forEach(td => {
         if(td.textContent==nombre.toString()){
             td.classList.add("greenColor");
             td.style.fontWeight = "bold";
             td.style.backgroundColor = "lightgrey";
-            if(!numbers.innerHTML.includes(td.textContent)){
-            numbers.innerHTML = numbers.innerHTML + td.textContent + ", ";
-  }
+
 }
 
 });
