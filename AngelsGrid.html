@@ -273,8 +273,8 @@
 
 
 <br>
-<a id="downloadButton" onclick="this.href='data:text/html;charset=UTF-8,'+encodeURIComponent(document.documentElement.outerHTML)" href="#"><img width="40px" height="40px" src="https://media.discordapp.net/attachments/582112089405915136/1071318653515092068/download-circular-button.png" alt="Image indisponible"></a>
-<a id="reset" href="#"><img width="40px" height="40px" src="https://media.discordapp.net/attachments/553624112602284063/1082946157002633216/604158-200.png" alt="Image indisponible"></a>    
+<a id="downloadButton" onclick="this.href='data:text/html;charset=UTF-8,'+encodeURIComponent(document.documentElement.outerHTML)" href="#"><img width="65px" height="65px" src="https://media.discordapp.net/attachments/487403255329194024/1083215953971646505/632-6325136_cat-drawing-pusheen-food-artwork-png-image-with-removebg-preview.png" alt="Image indisponible"></a>
+<a id="reset" href="#"><img width="96px" height="96px" src="https://media.discordapp.net/attachments/487403255329194024/1083211721021333604/cutecake.png" alt="Image indisponible"></a>    
 <script>
     document.getElementById("reset").addEventListener("click", function() {
     const userChoice = prompt("Êtes-vous certain de vouloir réinitialiser les grilles? (oui/non)");
@@ -443,14 +443,23 @@ body{
     margin-bottom: 10px;
     position: fixed;
     bottom: 0;
-    width: 100%;
+    padding: 13px;
 }
+
 #reset{
     margin-right: 10px;
     margin-bottom: 10px;
     position: fixed;
     bottom: 0;
     right: 0;
+}
+#reset:hover{
+    border-radius: 20px;
+    border: solid white 1px;
+}
+#downloadButton:hover{
+    border-radius: 20px;
+    border: solid white 1px;
 }
 @media (max-width: 1920px){
     body{
@@ -528,25 +537,23 @@ td:hover{
 const tds = document.querySelectorAll("td");
 let Lesnombres = JSON.parse(localStorage.getItem("listeNombres")) || [];
 tds.forEach(td => {
-    if(Lesnombres.includes(td.textContent)){
+    if(Lesnombres.includes(Array.prototype.indexOf.call(tds, td))){
         td.classList.add("clicked");
     }
 });
 tds.forEach(td => {
+    console.log(Array.prototype.indexOf.call(tds, td));
   td.style.fontSize = "1.5em";
   td.addEventListener("click", function() {
     if(td.textContent!=""){
     let nombres = JSON.parse(localStorage.getItem("listeNombres")) || [];
-    if(nombres.includes(td.textContent) && !td.classList.contains("clicked")){
-        td.classList.add("clicked");
-    }
-    else if(!nombres.includes(td.textContent) && !td.classList.contains("clicked")){
-    nombres.push(td.textContent)
+    if(!nombres.includes(td.textContent) && !td.classList.contains("clicked")){
+    nombres.push(Array.prototype.indexOf.call(tds, td))
     localStorage.setItem("listeNombres", JSON.stringify(nombres));
     td.classList.add("clicked");
-    }else if(nombres.includes(td.textContent) && td.classList.contains("clicked")){
+    }else if(nombres.includes(Array.prototype.indexOf.call(tds, td)) && td.classList.contains("clicked")){
         td.classList.remove("clicked");
-        var index = nombres.indexOf(td.textContent);
+        var index = nombres.indexOf(Array.prototype.indexOf.call(tds, td));
         if (index !== -1) {
         nombres.splice(index, 1);
         }
